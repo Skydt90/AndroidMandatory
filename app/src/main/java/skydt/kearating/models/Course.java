@@ -88,4 +88,10 @@ public class Course implements Parcelable
     {
         this.count = count;
     }
+
+    @Override
+    public String toString()
+    {
+        return this.name;
+    }
 }

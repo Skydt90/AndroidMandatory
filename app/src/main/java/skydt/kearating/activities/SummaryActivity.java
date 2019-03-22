@@ -67,14 +67,14 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v)
     {
-
+        /*
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.setData(Uri.parse("mailto:" + "christian_skydt@hotmail.com"));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "hej");
         emailIntent.putExtra(Intent.EXTRA_TEXT, "tester igen");
-        startActivity(emailIntent);
+        startActivity(emailIntent); */
 
-        //Intent intent = new Intent(SummaryActivity.this, SelectionActivity.class);
-        //startActivity(intent);
+        Intent intent = new Intent(SummaryActivity.this, SelectionActivity.class);
+        startActivity(intent);
     }
 }

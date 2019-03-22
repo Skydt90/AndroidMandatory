@@ -1,6 +1,7 @@
 package skydt.kearating.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,6 +16,8 @@ import java.util.List;
 import skydt.kearating.R;
 import skydt.kearating.models.Course;
 import skydt.kearating.models.Teacher;
+import skydt.kearating.repositories.CourseDAO;
+import skydt.kearating.repositories.TeacherDAO;
 
 public class ReviewActivity extends AppCompatActivity implements View.OnClickListener
 {
@@ -34,32 +37,32 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
     private int progressPage;
     private int count;
     private float rating;
+    private TeacherDAO teacherDAO;
+    private CourseDAO courseDAO;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
+        sharedPreferences = getSharedPreferences("", MODE_PRIVATE);
+        teacherDAO = new TeacherDAO();
+        courseDAO = new CourseDAO();
 
-        getTeachersAndCourses();
         loadInterface();
+        loadTeachersAndCourses();
         addIdToTextView();
         addQuestions();
     }
 
-    private void getTeachersAndCourses()
+    private void loadTeachersAndCourses()
     {
         courses = new ArrayList<>();
-        courses.add(new Course("Software Construction"));
-        courses.add(new Course("Software Design"));
-        courses.add(new Course("Technology"));
-        courses.add(new Course("IT-Organisation"));
+        courses = courseDAO.loadCourses(sharedPreferences);
 
         teachers = new ArrayList<>();
-        teachers.add(new Teacher("Faisal"));
-        teachers.add(new Teacher("Oskar"));
-        teachers.add(new Teacher("Troels"));
-        teachers.add(new Teacher("Cay"));
+        teachers = teacherDAO.loadTeachers(sharedPreferences);
     }
 
     private void loadInterface()
@@ -143,8 +146,7 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
                     tv3.setText(R.string.course_q6);
                     break;
             }
-        }
-        else if (!isCourse)
+        } else if (!isCourse)
         {
             switch (progressPage)
             {
@@ -207,6 +209,7 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
                         {
                             course.addRating(rating);
                             course.setCount(count);
+                            courseDAO.saveCourses(courses, sharedPreferences);
                             Intent intent = new Intent(ReviewActivity.this, SummaryActivity.class);
                             intent.putExtra("course", course);
                             intent.putExtra("rating", rating);
@@ -215,8 +218,7 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
                             break;
                         }
                     }
-                }
-                else if (!isCourse)
+                } else if (!isCourse)
                 {
                     for (Teacher teacher : teachers)
                     {
@@ -224,6 +226,7 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
                         {
                             teacher.addRating(rating);
                             teacher.setCount(count);
+                            teacherDAO.saveTeachers(teachers, sharedPreferences);
                             Intent intent = new Intent(ReviewActivity.this, SummaryActivity.class);
                             intent.putExtra("teacher", teacher);
                             intent.putExtra("rating", rating);
