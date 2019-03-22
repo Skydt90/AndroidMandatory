@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">KEA Rating</string>
+    <string name="welcome">Welcome to KEAs computer science rating app!</string>
+    <string name="intro">We would love to hear about your experience in your courses and with your teachers to help us improve the quality of the education for new and existing students.
+    \nSelect a course or a teacher to rate. Each can only be rated once. Get started below.
+    </string>
+    <string name="course_q1">Overall satisfaction with course?</string>
+    <string name="course_q2">Do you find the course relevant or not?</string>
+    <string name="course_q3">Does the course live up to your expectations?</string>
+    <string name="course_q4">Do you find the course too difficult?</string>
+    <string name="course_q5">Are you happy with the provided course materials?</string>
+    <string name="course_q6">Do you think the Course increase your chance of getting a job?</string>
+
+    <string name="teacher_q1">Overall satisfaction with the teacher?</string>
+    <string name="teacher_q2">Is the teacher well prepared for the lectures?</string>
+    <string name="teacher_q3">Do you feel satisfied with the teachers ability to help you?</string>
+    <string name="teacher_q4">Does the teacher provide you with enough feedback?</string>
+    <string name="teacher_q5">Does the teacher provide relevant and understandable examples?</string>
+    <string name="teacher_q6">Are the teachers assignments too difficult?</string>
+</resources>
