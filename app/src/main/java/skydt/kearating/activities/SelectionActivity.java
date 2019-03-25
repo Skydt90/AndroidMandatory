@@ -44,7 +44,7 @@ public class SelectionActivity extends AppCompatActivity implements View.OnClick
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
-        sharedPreferences = getSharedPreferences("", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         courseDAO = new CourseDAO();
         teacherDAO = new TeacherDAO();
 

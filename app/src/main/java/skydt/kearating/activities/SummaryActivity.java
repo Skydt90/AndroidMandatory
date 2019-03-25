@@ -36,7 +36,7 @@ public class SummaryActivity extends AppCompatActivity implements View.OnClickLi
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
-        sharedPreferences = getSharedPreferences("", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
 
         loadInterface();
 

@@ -46,7 +46,7 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
-        sharedPreferences = getSharedPreferences("", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("user_prefs", MODE_PRIVATE);
         teacherDAO = new TeacherDAO();
         courseDAO = new CourseDAO();
 

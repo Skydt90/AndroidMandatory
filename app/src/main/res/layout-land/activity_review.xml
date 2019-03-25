@@ -62,13 +62,15 @@
 
     <TextView
         android:id="@+id/tv1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="TextView"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/rb1"
         app:layout_constraintStart_toStartOf="@+id/reviewing"
         app:layout_constraintTop_toTopOf="@+id/rb1" />
 
@@ -84,12 +86,14 @@
 
     <TextView
         android:id="@+id/tv2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="TextView"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/rb2"
         app:layout_constraintStart_toStartOf="@+id/tv1"
         app:layout_constraintTop_toBottomOf="@+id/rb1" />
 
@@ -103,12 +107,14 @@
 
     <TextView
         android:id="@+id/tv3"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="TextView"
         android:textColor="@android:color/black"
         android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@+id/rb3"
         app:layout_constraintStart_toStartOf="@+id/tv2"
         app:layout_constraintTop_toBottomOf="@+id/rb2" />
 
