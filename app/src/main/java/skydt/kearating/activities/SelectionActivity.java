@@ -6,11 +6,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.util.ArrayList;
@@ -27,9 +30,14 @@ public class SelectionActivity extends AppCompatActivity implements View.OnClick
     private List<Teacher> teachers;
     private List<Course> courses;
     private ArrayAdapter<Course> listCourses;
+    private ArrayAdapter<Teacher> listTeachers;
     private ListView lvOptions;
     private ToggleButton toggleButton;
     private SharedPreferences sharedPreferences;
+    private CourseDAO courseDAO;
+    private TeacherDAO teacherDAO;
+    private String buttonID;
+    private static final String TOGGLE_BUTTON_STATE = "buttonState";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -37,6 +45,8 @@ public class SelectionActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selection);
         sharedPreferences = getSharedPreferences("", MODE_PRIVATE);
+        courseDAO = new CourseDAO();
+        teacherDAO = new TeacherDAO();
 
         loadTeachersAndCourses();
         loadInterface();
@@ -48,24 +58,25 @@ public class SelectionActivity extends AppCompatActivity implements View.OnClick
         toggleButton.setOnClickListener(this);
 
         listCourses = new ArrayAdapter<>(SelectionActivity.this, R.layout.list_options, courses);
+        listTeachers = new ArrayAdapter<>(SelectionActivity.this, R.layout.list_options, teachers);
+
         lvOptions = findViewById(R.id.lvCourseTeachers);
-        lvOptions.setAdapter(listCourses);
         lvOptions.setOnItemClickListener(this);
+        lvOptions.setAdapter(listCourses);
     }
 
     @Override
     public void onClick(View v)
     {
         Button button = (Button) v;
-        String id = button.getText().toString().toLowerCase();
+        buttonID = button.getText().toString().toLowerCase();
 
-        switch (id)
+        switch (buttonID)
         {
             case "courses":
                 lvOptions.setAdapter(listCourses);
                 break;
             case "teachers":
-                ArrayAdapter<Teacher> listTeachers = new ArrayAdapter<>(SelectionActivity.this, R.layout.list_options, teachers);
                 lvOptions.setAdapter(listTeachers);
                 break;
             default:
@@ -117,13 +128,66 @@ public class SelectionActivity extends AppCompatActivity implements View.OnClick
 
     private void loadTeachersAndCourses()
     {
-        CourseDAO courseDAO = new CourseDAO();
         courses = new ArrayList<>();
         courses = courseDAO.loadCourses(sharedPreferences);
 
-        TeacherDAO teacherDAO = new TeacherDAO();
         teachers = new ArrayList<>();
         teachers = teacherDAO.loadTeachers(sharedPreferences);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        getMenuInflater().inflate(R.menu.reset_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        AlertDialog.Builder alertBox = new AlertDialog.Builder(SelectionActivity.this);
+
+        alertBox.setMessage("Are you sure you want to reset everything?").setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        courseDAO.deleteCourses(sharedPreferences);
+                        teacherDAO.deleteTeachers(sharedPreferences);
+                        Toast.makeText(SelectionActivity.this, "All ratings has been reset", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertBox.create();
+        alertDialog.setTitle("WARNING!");
+        alertDialog.show();
+        return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        outState.putString(TOGGLE_BUTTON_STATE, buttonID);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+        buttonID = savedInstanceState.getString(TOGGLE_BUTTON_STATE);
+        if (buttonID != null && buttonID.equals("teachers"))
+        {
+            lvOptions.setAdapter(listTeachers);
+        }
     }
 }
 

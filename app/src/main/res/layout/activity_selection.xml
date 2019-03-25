@@ -15,6 +15,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="ToggleButton"
+        android:textColor="@android:color/black"
         android:textOff="Courses"
         android:textOn="Teachers"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,4 +31,18 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="@+id/tbCourses"
         app:layout_constraintTop_toBottomOf="@+id/tbCourses" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/walkthrough"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

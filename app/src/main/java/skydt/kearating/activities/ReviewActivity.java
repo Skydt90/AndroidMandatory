@@ -52,17 +52,8 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
 
         loadInterface();
         loadTeachersAndCourses();
-        addIdToTextView();
+        addNameIdToTextView();
         addQuestions();
-    }
-
-    private void loadTeachersAndCourses()
-    {
-        courses = new ArrayList<>();
-        courses = courseDAO.loadCourses(sharedPreferences);
-
-        teachers = new ArrayList<>();
-        teachers = teacherDAO.loadTeachers(sharedPreferences);
     }
 
     private void loadInterface()
@@ -89,7 +80,16 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
         tvPageNum.setText(Integer.toString(progressPage) + "/" + progressBar.getMax());
     }
 
-    private void addIdToTextView()
+    private void loadTeachersAndCourses()
+    {
+        courses = new ArrayList<>();
+        courses = courseDAO.loadCourses(sharedPreferences);
+
+        teachers = new ArrayList<>();
+        teachers = teacherDAO.loadTeachers(sharedPreferences);
+    }
+
+    private void addNameIdToTextView()
     {
         Bundle bundle = getIntent().getExtras();
         String key = new ArrayList<>(bundle.keySet()).get(0);
@@ -99,28 +99,12 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
         {
             case "Courses":
                 isCourse = true;
-
-                for (Course course : courses)
-                {
-                    if (course.getName().equals(name))
-                    {
-                        tvReviewID.setText(course.getName());
-                        break;
-                    }
-                }
+                tvReviewID.setText(name);
                 break;
 
             case "Teachers":
                 isCourse = false;
-
-                for (Teacher teacher : teachers)
-                {
-                    if (teacher.getName().equals(name))
-                    {
-                        tvReviewID.setText(teacher.getName());
-                        break;
-                    }
-                }
+                tvReviewID.setText(name);
                 break;
 
             default:
@@ -165,17 +149,6 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void updateInterface()
-    {
-        addQuestions();
-        progressBar.setProgress(progressPage);
-        tvPageNum.setText(Integer.toString(progressPage) + "/" + progressBar.getMax());
-        for (RatingBar ratingBar : ratingBars)
-        {
-            ratingBar.setRating(0);
-        }
-    }
-
     @Override
     public void onClick(View v)
     {
@@ -189,7 +162,7 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
                     rating += rb.getRating();
                     count += 1;
                 }
-                btnSubmit.setText("Submit");
+                btnSubmit.setText(R.string.submit);
                 progressPage += 1;
                 updateInterface();
                 break;
@@ -239,6 +212,17 @@ public class ReviewActivity extends AppCompatActivity implements View.OnClickLis
                 break;
 
             default:
+        }
+    }
+
+    private void updateInterface()
+    {
+        addQuestions();
+        progressBar.setProgress(progressPage);
+        tvPageNum.setText(Integer.toString(progressPage) + "/" + progressBar.getMax());
+        for (RatingBar ratingBar : ratingBars)
+        {
+            ratingBar.setRating(0);
         }
     }
 }
