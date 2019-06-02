@@ -1,5 +1,5 @@
 # AndroidMandatory
-
+> hej
 This repository contains the source code for my mandatory android assignment on the 4. semester in the computer science study programme at KEA. Below are the most relevant requirements and a brief description of my solution to them.
 
 ## Requirements:
